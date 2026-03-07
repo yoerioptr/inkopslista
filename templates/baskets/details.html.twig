@@ -3,7 +3,7 @@
 {% block title %}Basket: {{ basket.name }}{% endblock %}
 
 {% block head %}
-    <meta name="csrf-token" content="{{ csrf_token('basket_item_toggle') }}">
+    <meta name="csrf-token" content="{{ csrf_token('basket') }}">
 {% endblock %}
 
 {% block body %}
@@ -16,20 +16,28 @@
             </a>
         </div>
 
-        <ul role="list" class="divide-y divide-gray-100 dark:divide-white/5">
+        <ul
+            role="list"
+            class="divide-y divide-gray-100 dark:divide-white/5"
+            {{ stimulus_controller('basket-reorder', {url: path('baskets_reorder', {basket: basket.id})}) }}
+        >
             {% for item in basket.items|sort((a,b) => a.weight <=> b.weight) %}
                 <li
-                    class="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 sm:flex-nowrap {{ item.isInCart ? 'line-through' }}"
-                    {{ stimulus_controller('basket-item-toggle', {url: path('baskets_toggle_item', {basket: basket.id, item: item.id})}) }}
+                    draggable="true"
+                    class="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 sm:flex-nowrap cursor-move select-none {{ item.isInCart ? 'line-through' }}"
+                    data-id="{{ item.id }}"
+                    data-action="dragstart->basket-reorder#dragstart dragover->basket-reorder#dragover dragend->basket-reorder#dragend drop->basket-reorder#drop"
                 >
-                    <div class="flex items-center gap-x-4">
+                    <div
+                        {{ stimulus_controller('basket-item-toggle', {url: path('baskets_toggle_item', {basket: basket.id, item: item.id})}) }}
+                        class="flex items-center gap-x-4"
+                    >
                         <div class="group grid size-4 grid-cols-1 shrink-0">
                             <input
                                 type="checkbox"
                                 id="{{ item.id }}"
                                 name="{{ item.id }}"
                                 class="col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 dark:border-white/10 dark:bg-white/5 dark:checked:border-indigo-500 dark:checked:bg-indigo-500 dark:indeterminate:border-indigo-500 dark:indeterminate:bg-indigo-500 dark:focus-visible:outline-indigo-500 dark:disabled:border-white/5 dark:disabled:bg-white/10 dark:disabled:checked:bg-white/10 forced-colors:appearance-auto"
-                                aria-labelledby="{{ item.id }}-label"
                                 {{ item.isInCart ? 'checked' }}
                                 {{ stimulus_action('basket-item-toggle', 'toggle', 'change') }}
                             >
@@ -43,12 +51,12 @@
                             </svg>
                         </div>
 
-                        <p
+                        <label
+                            for="{{ item.id }}"
                             class="text-md font-semibold text-gray-900 dark:text-white"
-                            id="{{ item.id }}-label"
                         >
                             {{ item.product.name }}
-                        </p>
+                        </label>
                     </div>
                     <div class="flex flex-none items-center gap-x-2.5 text-sm/6 text-gray-900 dark:text-white">
                         <span>{{ item.amount }}</span>

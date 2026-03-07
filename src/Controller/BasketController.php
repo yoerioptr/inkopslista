@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Dto\BasketReorderRequest;
 use App\Dto\ToggleBasketItemRequest;
 use App\Entity\Basket;
 use App\Entity\BasketItem;
@@ -48,6 +49,28 @@ final class BasketController extends AbstractController
         #[MapRequestPayload] ToggleBasketItemRequest $request,
     ): JsonResponse {
         $item->setInCart($request->inCart);
+        $this->entityManager->flush();
+
+        return new JsonResponse(['success' => true]);
+    }
+
+    #[Route('/{basket}/reorder', name: 'baskets_reorder', methods: ['POST'])]
+    public function reorderBasket(
+        Basket $basket,
+        #[MapRequestPayload] BasketReorderRequest $request,
+    ): JsonResponse {
+        $items = $basket->getItems()->toArray();
+        $idMap = [];
+        foreach ($items as $item) {
+            $idMap[$item->getId()] = $item;
+        }
+
+        foreach ($request->ids as $index => $id) {
+            if (isset($idMap[$id])) {
+                $idMap[$id]->setWeight($index);
+            }
+        }
+
         $this->entityManager->flush();
 
         return new JsonResponse(['success' => true]);

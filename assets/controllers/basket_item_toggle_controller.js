@@ -15,7 +15,7 @@ export default class extends Controller {
                 headers: {
                     'Content-Type': 'application/json',
                     'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+                    'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')?.content
                 },
                 body: JSON.stringify({inCart: isChecked}),
             });

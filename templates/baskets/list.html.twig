@@ -3,13 +3,22 @@
 {% block title %}Baskets{% endblock %}
 
 {% block body %}
-    <div class="w-full max-w-screen-sm mx-auto">
+    <div class="w-full max-w-screen-sm mx-auto px-4">
+        <div class="flex justify-between items-center">
+            <h1 class="text-2xl my-8">Baskets</h1>
+        </div>
+
         <ul role="list" class="divide-y divide-gray-100 dark:divide-white/5">
             {% for basket in baskets %}
                 <li class="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 sm:flex-nowrap">
                     <div>
-                        <p class="text-sm/6 font-semibold text-gray-900 dark:text-white">
-                            <a href="#" class="hover:underline">{{ basket.name }}</a>
+                        <p class="text-md/6 font-semibold text-gray-900 dark:text-white">
+                            <a
+                                href="{{ path('baskets_show', {'basket': basket.id}) }}"
+                                class="hover:underline"
+                            >
+                                {{ basket.name }}
+                            </a>
                         </p>
                         <div class="mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500 dark:text-gray-400">
                             {% if basket.author %}
@@ -22,20 +31,31 @@
                             {% endif %}
                             <p>
                                 <time
-                                    datetime="{{ basket.created.format('c') }}">{{ basket.created|time_elapsed }}</time>
+                                    datetime="{{ basket.created.format('c') }}"
+                                >
+                                    {{ basket.created|time_elapsed }}
+                                </time>
                             </p>
                         </div>
                     </div>
                     <dl class="flex w-full flex-none justify-between gap-x-8 sm:w-auto">
                         <div class="flex items-center gap-x-2.5">
                             <dt>
-                                <span class="sr-only">Total comments</span>
-                                <img class="size-5 text-gray-400 pointer-events-none" alt src="{{ asset('build/icons/check.svg') }}"/>
+                                <span class="sr-only">Products in basket</span>
+                                <img
+                                    class="size-5 text-gray-400 pointer-events-none"
+                                    alt
+                                    src="{{ asset('build/icons/check.svg') }}"
+                                />
                             </dt>
                             <dd class="text-sm/6 text-gray-900 dark:text-white">{{ basket_confirmed(basket) }}</dd>
                             <dt>
-                                <span class="sr-only">Total comments</span>
-                                <img class="size-5 text-gray-400 pointer-events-none" alt src="{{ asset('build/icons/x-mark.svg') }}"/>
+                                <span class="sr-only">Products not in basket</span>
+                                <img
+                                    class="size-5 text-gray-400 pointer-events-none"
+                                    alt
+                                    src="{{ asset('build/icons/x-mark.svg') }}"
+                                />
                             </dt>
                             <dd class="text-sm/6 text-gray-900 dark:text-white">{{ basket_unconfirmed(basket) }}</dd>
                         </div>

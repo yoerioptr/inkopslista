@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Basket;
 use App\Repository\BasketRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,8 +22,16 @@ final class BasketController extends AbstractController
     #[Route('', name: 'baskets')]
     public function index(): Response
     {
-        return $this->render('basket/list.html.twig', [
+        return $this->render('baskets/list.html.twig', [
             'baskets' => $this->basketRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/{basket}', name: 'baskets_show')]
+    public function details(Basket $basket): Response
+    {
+        return $this->render('baskets/details.html.twig', [
+            'basket' => $basket,
         ]);
     }
 }

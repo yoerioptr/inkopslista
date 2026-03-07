@@ -14,21 +14,16 @@ enum Unit: string
     case Centilitre = 'cl';
     case Decilitre = 'dl';
 
-    public static function getWeightUnits(): array
+    public function label(): string
     {
-        return [
-            self::Kilogram,
-            self::Gram,
-        ];
-    }
-
-    public static function getVolumeUnits(): array
-    {
-        return [
-            self::Litre,
-            self::Millilitre,
-            self::Centilitre,
-            self::Decilitre,
-        ];
+        return match ($this) {
+            self::Piece => 'piece',
+            self::Kilogram => 'kg',
+            self::Gram => 'g',
+            self::Litre => 'l',
+            self::Millilitre => 'ml',
+            self::Centilitre => 'cl',
+            self::Decilitre => 'dl',
+        };
     }
 }

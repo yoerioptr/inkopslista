@@ -1,0 +1,8 @@
+time.year: '{1} 1 year|]1,Inf[ %count% years'
+time.month: '{1} 1 month|]1,Inf[ %count% months'
+time.week: '{1} 1 week|]1,Inf[ %count% weeks'
+time.day: '{1} 1 day|]1,Inf[ %count% days'
+time.hour: '{1} 1 hour|]1,Inf[ %count% hours'
+time.minute: '{1} 1 minute|]1,Inf[ %count% minutes'
+time.ago: '%time% ago'
+time.just_now: 'just now'

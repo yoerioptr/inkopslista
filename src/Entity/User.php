@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
+#[ORM\HasLifecycleCallbacks]
 final class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -38,6 +41,17 @@ final class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private ?\DateTimeImmutable $created = null;
+
+    /**
+     * @var Collection<int, Basket>
+     */
+    #[ORM\OneToMany(targetEntity: Basket::class, mappedBy: 'Author')]
+    private Collection $baskets;
+
+    public function __construct()
+    {
+        $this->baskets = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -134,6 +148,42 @@ final class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCreated(\DateTimeImmutable $created): static
     {
         $this->created = $created;
+
+        return $this;
+    }
+
+    #[ORM\PrePersist]
+    public function onPrePersist(): void
+    {
+        $this->created = new \DateTimeImmutable();
+    }
+
+    /**
+     * @return Collection<int, Basket>
+     */
+    public function getBaskets(): Collection
+    {
+        return $this->baskets;
+    }
+
+    public function addBasket(Basket $basket): static
+    {
+        if (!$this->baskets->contains($basket)) {
+            $this->baskets->add($basket);
+            $basket->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBasket(Basket $basket): static
+    {
+        if ($this->baskets->removeElement($basket)) {
+            // set the owning side to null (unless already changed)
+            if ($basket->getAuthor() === $this) {
+                $basket->setAuthor(null);
+            }
+        }
 
         return $this;
     }

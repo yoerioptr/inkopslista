@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BasketRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 final class Basket
 {
     #[ORM\Id]
@@ -25,6 +26,12 @@ final class Basket
 
     #[ORM\Column]
     private ?\DateTimeImmutable $created = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $Name = null;
+
+    #[ORM\ManyToOne(inversedBy: 'baskets')]
+    private ?User $Author = null;
 
     public function __construct()
     {
@@ -74,6 +81,36 @@ final class Basket
     public function setCreated(\DateTimeImmutable $created): static
     {
         $this->created = $created;
+
+        return $this;
+    }
+
+    #[ORM\PrePersist]
+    public function onPrePersist(): void
+    {
+        $this->created = new \DateTimeImmutable();
+    }
+
+    public function getName(): ?string
+    {
+        return $this->Name;
+    }
+
+    public function setName(string $Name): static
+    {
+        $this->Name = $Name;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->Author;
+    }
+
+    public function setAuthor(?User $Author): static
+    {
+        $this->Author = $Author;
 
         return $this;
     }

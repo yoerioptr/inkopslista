@@ -6,6 +6,7 @@ namespace App\Enumeration;
 
 enum Unit: string
 {
+    case Piece = 'pcs';
     case Kilogram = 'kg';
     case Gram = 'g';
     case Litre = 'l';

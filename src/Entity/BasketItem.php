@@ -10,6 +10,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BasketItemRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 final class BasketItem
 {
     #[ORM\Id]
@@ -127,5 +128,11 @@ final class BasketItem
         $this->inCart = $inCart;
 
         return $this;
+    }
+
+    #[ORM\PrePersist]
+    public function onPrePersist(): void
+    {
+        $this->created = new \DateTimeImmutable();
     }
 }

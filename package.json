@@ -1,0 +1,18 @@
+{
+    "type": "module",
+    "private": true,
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build"
+    },
+    "devDependencies": {
+        "vite": "^6.0",
+        "vite-plugin-symfony": "^8.2"
+    },
+    "dependencies": {
+        "@hotwired/stimulus": "^3.2.2",
+        "@symfony/stimulus-bridge": "^4.0.1",
+        "@tailwindcss/vite": "^4.2.1",
+        "tailwindcss": "^4.2.1"
+    }
+}

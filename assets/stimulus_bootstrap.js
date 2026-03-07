@@ -1,5 +1,16 @@
-import { startStimulusApp } from '@symfony/stimulus-bundle';
+import {Application} from '@hotwired/stimulus';
 
-const app = startStimulusApp();
-// register any custom, 3rd party controllers here
-// app.register('some_controller_name', SomeImportedController);
+const app = Application.start();
+
+const controllers = import.meta.glob('./controllers/**/*_controller.js', {eager: true});
+
+for (const path in controllers) {
+    const controller = controllers[path];
+    const name = path
+        .split('/')
+        .pop()
+        .replace('_controller.js', '')
+        .replace(/_/g, '-');
+
+    app.register(name, controller.default);
+}

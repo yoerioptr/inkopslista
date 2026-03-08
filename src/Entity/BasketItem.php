@@ -28,7 +28,7 @@ final class BasketItem
     #[ORM\Column(enumType: Unit::class)]
     private ?Unit $unit = null;
 
-    #[ORM\ManyToOne(inversedBy: 'items')]
+    #[ORM\ManyToOne(inversedBy: 'items', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Basket $basket = null;
 

@@ -7,7 +7,9 @@ use App\Dto\ToggleBasketItemRequest;
 use App\Entity\Basket;
 use App\Entity\BasketItem;
 use App\Form\BasketType;
+use App\Repository\BasketItemRepository;
 use App\Repository\BasketRepository;
+use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -24,6 +26,8 @@ final class BasketController extends AbstractController
     public function __construct(
         private readonly BasketRepository $basketRepository,
         private readonly EntityManagerInterface $entityManager,
+        private readonly ProductRepository $productRepository,
+        private readonly BasketItemRepository $basketItemRepository,
     ) {
         //
     }
@@ -53,8 +57,60 @@ final class BasketController extends AbstractController
             return $this->redirectToRoute('baskets');
         }
 
-        return $this->render('baskets/new.html.twig', [
+        return $this->render('baskets/form.html.twig', [
             'form' => $form,
+            'title' => 'New basket',
+            'existing_products' => $this->productRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/{basket}/edit', name: 'baskets_edit')]
+    public function edit(Basket $basket, Request $request): Response
+    {
+        $form = $this
+            ->createForm(BasketType::class, $basket)
+            ->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('baskets');
+        }
+
+        return $this->render('baskets/form.html.twig', [
+            'form' => $form,
+            'title' => "Edit basket: {$basket->getName()}",
+            'existing_products' => $this->productRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/new-combined', name: 'baskets_new_combined')]
+    public function createCombined(Request $request): Response
+    {
+        $basket = new Basket();
+        $basket->setAuthor($this->getUser());
+
+        $items = $this->basketItemRepository->findBy(['inCart' => false]);
+        foreach ($items as $item) {
+            $basket->addItem($item);
+            $this->entityManager->persist($item);
+        }
+
+        $form = $this
+            ->createForm(BasketType::class, $basket)
+            ->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->entityManager->persist($basket);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('baskets');
+        }
+
+        return $this->render('baskets/form.html.twig', [
+            'form' => $form,
+            'title' => 'New combined basket',
+            'existing_products' => $this->productRepository->findAll(),
         ]);
     }
 
@@ -85,7 +141,7 @@ final class BasketController extends AbstractController
         $items = $basket->items->toArray();
         $idMap = [];
         foreach ($items as $item) {
-            $idMap[$item->id] = $item;
+            $idMap[$item->getId()] = $item;
         }
 
         foreach ($request->ids as $index => $id) {

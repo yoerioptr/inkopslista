@@ -18,7 +18,7 @@ final class BasketItem
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'basketItems')]
+    #[ORM\ManyToOne(inversedBy: 'basketItems', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Product $product = null;
 

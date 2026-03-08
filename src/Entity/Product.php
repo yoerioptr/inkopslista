@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#[ORM\UniqueConstraint(name: 'UNIQ_PRODUCT_NAME', columns: ['name'])]
 final class Product
 {
     #[ORM\Id]

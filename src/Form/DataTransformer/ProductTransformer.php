@@ -3,28 +3,30 @@
 namespace App\Form\DataTransformer;
 
 use App\Entity\Product;
-use App\Repository\ProductRepository;
+use App\Services\ProductManager;
 use Symfony\Component\Form\DataTransformerInterface;
 
 final readonly class ProductTransformer implements DataTransformerInterface
 {
     public function __construct(
-        private ProductRepository $productRepository,
+        private ProductManager $productManager,
     ) {
         //
     }
 
-    public function transform(mixed $value): ?string
+    #[\Override]
+    public function transform(mixed $value): string
     {
         return $value instanceof Product
             ? $value->getName()
-            : null;
+            : '';
     }
 
+    #[\Override]
     public function reverseTransform(mixed $value): ?Product
     {
-        return $value
-            ? $this->productRepository->findOrCreateByName($value)
+        return !empty($value) && is_string($value)
+            ? $this->productManager->getOrCreateProduct($value)
             : null;
     }
 }

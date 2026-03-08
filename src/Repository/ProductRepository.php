@@ -16,21 +16,13 @@ final class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
-    public function findOrCreateByName(string $name): Product
+    public function findByName(string $name): ?Product
     {
-        $product = $this->createQueryBuilder('product')
+        return $this->createQueryBuilder('product')
             ->where('LOWER(product.name) = LOWER(:name)')
             ->setParameter('name', $name)
             ->getQuery()
             ->getOneOrNullResult();
-
-        if (!$product) {
-            $product = new Product();
-            $product->setName($name);
-            $this->getEntityManager()->persist($product);
-        }
-
-        return $product;
     }
 
 }

@@ -24,13 +24,13 @@
             {% for item in basket.items|sort((a,b) => a.weight <=> b.weight) %}
                 <li
                     draggable="true"
-                    class="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 sm:flex-nowrap cursor-move select-none {{ item.isInCart ? 'line-through' }}"
+                    class="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 sm:flex-nowrap cursor-move select-none"
                     data-id="{{ item.id }}"
                     data-action="dragstart->basket-reorder#dragstart dragover->basket-reorder#dragover dragend->basket-reorder#dragend drop->basket-reorder#drop"
                 >
                     <div
                         {{ stimulus_controller('basket-item-toggle', {url: path('baskets_toggle_item', {basket: basket.id, item: item.id})}) }}
-                        class="flex items-center gap-x-4"
+                        class="flex items-center gap-x-4 {{ item.isInCart ? 'line-through' }}"
                     >
                         <div class="group grid size-4 grid-cols-1 shrink-0">
                             <input

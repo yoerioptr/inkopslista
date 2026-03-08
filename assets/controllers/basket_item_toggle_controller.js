@@ -6,8 +6,11 @@ export default class extends Controller {
     async toggle(event) {
         const isChecked = event.target.checked;
 
-        if (isChecked) this.element.classList.add('line-through');
-        else this.element.classList.remove('line-through');
+        if (isChecked) {
+            this.element.classList.add('line-through')
+        } else {
+            this.element.classList.remove('line-through')
+        }
 
         try {
             const response = await fetch(this.urlValue, {

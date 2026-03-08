@@ -48,7 +48,7 @@
                                     src="{{ asset('build/icons/check.svg') }}"
                                 />
                             </dt>
-                            <dd class="text-sm/6 text-gray-900 dark:text-white">{{ basket_confirmed(basket) }}</dd>
+                            <dd class="text-sm/6 text-gray-900 dark:text-white">{{ basket.productsInCart|length }}</dd>
                             <dt>
                                 <span class="sr-only">Products not in basket</span>
                                 <img
@@ -57,7 +57,7 @@
                                     src="{{ asset('build/icons/x-mark.svg') }}"
                                 />
                             </dt>
-                            <dd class="text-sm/6 text-gray-900 dark:text-white">{{ basket_unconfirmed(basket) }}</dd>
+                            <dd class="text-sm/6 text-gray-900 dark:text-white">{{ basket.productsToPick|length }}</dd>
                         </div>
                     </dl>
                 </li>

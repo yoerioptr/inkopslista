@@ -114,4 +114,24 @@ final class Basket
 
         return $this;
     }
+
+    public function productsInCart(): ArrayCollection
+    {
+        $items = array_filter(
+            $this->items->toArray(),
+            fn(BasketItem $item) => $item->isInCart(),
+        );
+
+        return new ArrayCollection($items);
+    }
+
+    public function productsToPick(): ArrayCollection
+    {
+        $items = array_filter(
+            $this->items->toArray(),
+            fn(BasketItem $item) => !$item->isInCart(),
+        );
+
+        return new ArrayCollection($items);
+    }
 }

@@ -16,34 +16,31 @@ final class Basket
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null {
-        get {
-            return $this->id;
-        }
-    }
+    private ?int $id = null;
 
     /**
      * @var Collection<int, BasketItem>
      */
     #[ORM\OneToMany(targetEntity: BasketItem::class, mappedBy: 'basket', orphanRemoval: true, cascade: ['persist'])]
-    public Collection $items {
-        get {
-            return $this->items;
-        }
-    }
+    public Collection $items;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $created = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Name = null;
+    private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'baskets')]
-    private ?User $Author = null;
+    private ?User $author = null;
 
     public function __construct()
     {
         $this->items = new ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 
     public function addItem(BasketItem $item): self
@@ -88,24 +85,24 @@ final class Basket
 
     public function getName(): ?string
     {
-        return $this->Name;
+        return $this->name;
     }
 
-    public function setName(string $Name): static
+    public function setName(string $name): static
     {
-        $this->Name = $Name;
+        $this->name = $name;
 
         return $this;
     }
 
     public function getAuthor(): ?User
     {
-        return $this->Author;
+        return $this->author;
     }
 
-    public function setAuthor(?User $Author): static
+    public function setAuthor(?User $author): static
     {
-        $this->Author = $Author;
+        $this->author = $author;
 
         return $this;
     }

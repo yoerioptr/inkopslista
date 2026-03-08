@@ -17,11 +17,7 @@ final class Product
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null {
-        get {
-            return $this->id;
-        }
-    }
+    private ?int $id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
@@ -30,11 +26,7 @@ final class Product
      * @var Collection<int, BasketItem>
      */
     #[ORM\OneToMany(targetEntity: BasketItem::class, mappedBy: 'product')]
-    private Collection $basketItems {
-        get {
-            return $this->basketItems;
-        }
-    }
+    private Collection $basketItems;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $created = null;
@@ -42,6 +34,11 @@ final class Product
     public function __construct()
     {
         $this->basketItems = new ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 
     public function getName(): ?string

@@ -19,11 +19,7 @@ final class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null {
-        get {
-            return $this->id;
-        }
-    }
+    private ?int $id = null;
 
     #[ORM\Column(length: 180)]
     private ?string $email = null;
@@ -49,16 +45,22 @@ final class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Basket>
      */
-    #[ORM\OneToMany(targetEntity: Basket::class, mappedBy: 'Author')]
-    private Collection $baskets {
-        get {
-            return $this->baskets;
-        }
-    }
+    #[ORM\OneToMany(targetEntity: Basket::class, mappedBy: 'author')]
+    private Collection $baskets;
 
     public function __construct()
     {
         $this->baskets = new ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getBaskets(): Collection
+    {
+        return $this->baskets;
     }
 
     public function getEmail(): ?string

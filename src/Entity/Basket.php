@@ -21,7 +21,7 @@ final class Basket
     /**
      * @var Collection<int, BasketItem>
      */
-    #[ORM\OneToMany(targetEntity: BasketItem::class, mappedBy: 'basket', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: BasketItem::class, mappedBy: 'basket', orphanRemoval: true, cascade: ['persist'])]
     private Collection $items;
 
     #[ORM\Column]

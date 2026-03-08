@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Enumeration\Unit;
+use App\Enum\Unit;
 use App\Repository\BasketItemRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -32,7 +32,7 @@ final class BasketItem
     #[ORM\JoinColumn(nullable: false)]
     private ?Basket $basket = null;
 
-    #[ORM\Column]
+    #[ORM\Column()]
     private ?int $weight = null;
 
     #[ORM\Column]
@@ -134,5 +134,7 @@ final class BasketItem
     public function onPrePersist(): void
     {
         $this->created = new \DateTimeImmutable();
+        $this->inCart = false;
+        $this->weight = 0;
     }
 }

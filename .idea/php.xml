@@ -161,7 +161,6 @@
               <list>
                 <mapping local-root="$PROJECT_DIR$" remote-root="/var/www/html" />
                 <mapping local-root="$PROJECT_DIR$/.ddev" remote-root="/mnt/ddev_config" />
-                <mapping local-root="$PROJECT_DIR$/.ddev/xhprof" remote-root="/usr/local/bin/xhprof" />
                 <mapping local-root="$PROJECT_DIR$/.git" remote-root="/var/www/html/.git" />
                 <mapping local-root="$APPLICATION_CONFIG_DIR$/scratches" remote-root="/opt/scratches" />
               </list>
@@ -178,7 +177,7 @@
       </interpreter>
     </interpreters>
   </component>
-  <component name="PhpProjectSharedConfiguration" php_language_level="8.4" />
+  <component name="PhpProjectSharedConfiguration" php_language_level="8.5" />
   <component name="PhpStanOptionsConfiguration">
     <option name="transferred" value="true" />
   </component>

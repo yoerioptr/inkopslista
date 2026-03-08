@@ -7,8 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 final readonly class ToggleBasketItemRequest
 {
     public function __construct(
-        #[Assert\NotNull]
-        public bool $inCart,
+        #[Assert\NotNull] public bool $inCart,
     ) {
         //
     }

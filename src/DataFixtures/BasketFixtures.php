@@ -5,7 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\Basket;
 use App\Entity\BasketItem;
 use App\Entity\Product;
-use App\Enumeration\Unit;
+use App\Enum\Unit;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -26,7 +26,6 @@ final class BasketFixtures extends Fixture
         $basketItem->setProduct($product);
         $basketItem->setAmount('1.00');
         $basketItem->setUnit(Unit::Kilogram);
-        $basketItem->setWeight(-1);
         $basketItem->setInCart(false);
         $manager->persist($basketItem);
 
@@ -40,7 +39,6 @@ final class BasketFixtures extends Fixture
         $basketItem->setProduct($product);
         $basketItem->setAmount('1.00');
         $basketItem->setUnit(Unit::Piece);
-        $basketItem->setWeight(-1);
         $basketItem->setInCart(true);
 
         $manager->persist($basketItem);

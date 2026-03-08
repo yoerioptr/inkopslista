@@ -6,6 +6,7 @@ use App\Dto\BasketReorderRequest;
 use App\Dto\ToggleBasketItemRequest;
 use App\Entity\Basket;
 use App\Entity\BasketItem;
+use App\Form\BasketType;
 use App\Repository\BasketRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -35,6 +36,28 @@ final class BasketController extends AbstractController
         ]);
     }
 
+    #[Route('/new', name: 'baskets_new')]
+    public function create(Request $request): Response
+    {
+        $basket = new Basket();
+        $basket->setAuthor($this->getUser());
+
+        $form = $this
+            ->createForm(BasketType::class, $basket)
+            ->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->entityManager->persist($basket);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('baskets');
+        }
+
+        return $this->render('baskets/new.html.twig', [
+            'form' => $form,
+        ]);
+    }
+
     #[Route('/{basket}', name: 'baskets_show')]
     public function details(Basket $basket): Response
     {
@@ -55,7 +78,7 @@ final class BasketController extends AbstractController
     }
 
     #[Route('/{basket}/reorder', name: 'baskets_reorder', methods: ['POST'])]
-    public function reorderBasket(
+    public function reorder(
         Basket $basket,
         #[MapRequestPayload] BasketReorderRequest $request,
     ): JsonResponse {

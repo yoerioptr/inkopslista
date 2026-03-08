@@ -16,7 +16,11 @@ final class BasketItem
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    public ?int $id = null {
+        get {
+            return $this->id;
+        }
+    }
 
     #[ORM\ManyToOne(inversedBy: 'basketItems', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
@@ -32,7 +36,7 @@ final class BasketItem
     #[ORM\JoinColumn(nullable: false)]
     private ?Basket $basket = null;
 
-    #[ORM\Column()]
+    #[ORM\Column]
     private ?int $weight = null;
 
     #[ORM\Column]
@@ -41,17 +45,12 @@ final class BasketItem
     #[ORM\Column]
     private ?bool $inCart = null;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
     public function getProduct(): ?Product
     {
         return $this->product;
     }
 
-    public function setProduct(?Product $product): static
+    public function setProduct(?Product $product): self
     {
         $this->product = $product;
 
@@ -63,7 +62,7 @@ final class BasketItem
         return $this->amount;
     }
 
-    public function setAmount(string $amount): static
+    public function setAmount(string $amount): self
     {
         $this->amount = $amount;
 

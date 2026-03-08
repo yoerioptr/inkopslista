@@ -16,13 +16,21 @@ final class Basket
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private ?int $id = null {
+        get {
+            return $this->id;
+        }
+    }
 
     /**
      * @var Collection<int, BasketItem>
      */
     #[ORM\OneToMany(targetEntity: BasketItem::class, mappedBy: 'basket', orphanRemoval: true, cascade: ['persist'])]
-    private Collection $items;
+    public Collection $items {
+        get {
+            return $this->items;
+        }
+    }
 
     #[ORM\Column]
     private ?\DateTimeImmutable $created = null;
@@ -38,20 +46,7 @@ final class Basket
         $this->items = new ArrayCollection();
     }
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return Collection<int, BasketItem>
-     */
-    public function getItems(): Collection
-    {
-        return $this->items;
-    }
-
-    public function addItem(BasketItem $item): static
+    public function addItem(BasketItem $item): self
     {
         if (!$this->items->contains($item)) {
             $this->items->add($item);
@@ -61,7 +56,7 @@ final class Basket
         return $this;
     }
 
-    public function removeItem(BasketItem $item): static
+    public function removeItem(BasketItem $item): self
     {
         if ($this->items->removeElement($item)) {
             // set the owning side to null (unless already changed)

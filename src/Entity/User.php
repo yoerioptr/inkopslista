@@ -19,7 +19,11 @@ final class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private ?int $id = null {
+        get {
+            return $this->id;
+        }
+    }
 
     #[ORM\Column(length: 180)]
     private ?string $email = null;
@@ -31,7 +35,7 @@ final class User implements UserInterface, PasswordAuthenticatedUserInterface
     private array $roles = [];
 
     /**
-     * @var string The hashed password
+     * @var string|null The hashed password
      */
     #[ORM\Column]
     private ?string $password = null;
@@ -46,16 +50,15 @@ final class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var Collection<int, Basket>
      */
     #[ORM\OneToMany(targetEntity: Basket::class, mappedBy: 'Author')]
-    private Collection $baskets;
+    private Collection $baskets {
+        get {
+            return $this->baskets;
+        }
+    }
 
     public function __construct()
     {
         $this->baskets = new ArrayCollection();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getEmail(): ?string
@@ -145,7 +148,7 @@ final class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->created;
     }
 
-    public function setCreated(\DateTimeImmutable $created): static
+    public function setCreated(\DateTimeImmutable $created): self
     {
         $this->created = $created;
 
@@ -158,15 +161,7 @@ final class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->created = new \DateTimeImmutable();
     }
 
-    /**
-     * @return Collection<int, Basket>
-     */
-    public function getBaskets(): Collection
-    {
-        return $this->baskets;
-    }
-
-    public function addBasket(Basket $basket): static
+    public function addBasket(Basket $basket): self
     {
         if (!$this->baskets->contains($basket)) {
             $this->baskets->add($basket);

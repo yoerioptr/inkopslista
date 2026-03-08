@@ -82,10 +82,10 @@ final class BasketController extends AbstractController
         Basket $basket,
         #[MapRequestPayload] BasketReorderRequest $request,
     ): JsonResponse {
-        $items = $basket->getItems()->toArray();
+        $items = $basket->items->toArray();
         $idMap = [];
         foreach ($items as $item) {
-            $idMap[$item->getId()] = $item;
+            $idMap[$item->id] = $item;
         }
 
         foreach ($request->ids as $index => $id) {

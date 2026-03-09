@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Security;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,7 +14,6 @@ final class Login extends AbstractController
     public function __construct(
         private readonly AuthenticationUtils $authenticationUtils,
     ) {
-        //
     }
 
     #[Route(path: '/login', name: 'login')]

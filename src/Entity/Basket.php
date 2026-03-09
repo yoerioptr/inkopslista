@@ -22,7 +22,7 @@ final class Basket
      * @var Collection<int, BasketItem>
      */
     #[ORM\OneToMany(targetEntity: BasketItem::class, mappedBy: 'basket', orphanRemoval: true, cascade: ['persist'])]
-    public Collection $items;
+    private Collection $items;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $created = null;
@@ -41,6 +41,11 @@ final class Basket
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getItems(): ArrayCollection
+    {
+        return $this->items;
     }
 
     public function addItem(BasketItem $item): self
@@ -70,7 +75,7 @@ final class Basket
         return $this->created;
     }
 
-    public function setCreated(\DateTimeImmutable $created): static
+    public function setCreated(\DateTimeImmutable $created): self
     {
         $this->created = $created;
 
@@ -88,7 +93,7 @@ final class Basket
         return $this->name;
     }
 
-    public function setName(string $name): static
+    public function setName(string $name): self
     {
         $this->name = $name;
 
@@ -100,7 +105,7 @@ final class Basket
         return $this->author;
     }
 
-    public function setAuthor(?User $author): static
+    public function setAuthor(?User $author): self
     {
         $this->author = $author;
 

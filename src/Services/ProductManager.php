@@ -1,17 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use App\Entity\Product;
 use App\Repository\ProductRepository;
-use Doctrine\ORM\EntityManagerInterface;
 
 final readonly class ProductManager
 {
     public function __construct(
         private ProductRepository $productRepository,
     ) {
-        //
     }
 
     public function getOrCreateProduct(string $name): Product

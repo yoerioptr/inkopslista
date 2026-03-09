@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Basket;
 
 use App\Repository\BasketRepository;
@@ -14,7 +16,6 @@ final class ListBaskets extends AbstractController
     public function __construct(
         private readonly BasketRepository $basketRepository,
     ) {
-        //
     }
 
     #[Route('baskets', name: 'baskets')]

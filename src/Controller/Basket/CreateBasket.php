@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Basket;
 
 use App\Entity\Basket;
@@ -19,7 +21,6 @@ final class CreateBasket extends AbstractController
         private readonly ProductRepository $productRepository,
         private readonly EntityManagerInterface $entityManager,
     ) {
-        //
     }
 
     #[Route('baskets/new', name: 'baskets_new')]

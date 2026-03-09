@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Twig;
 
 use App\Services\TimeCalculation;
@@ -11,7 +13,6 @@ final class TimeExtension extends AbstractExtension
     public function __construct(
         private readonly TimeCalculation $timeCalculation
     ) {
-        //
     }
 
     #[\Override]

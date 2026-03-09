@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Basket;
 
 use App\Dto\BasketReorderRequest;
 use App\Entity\Basket;
+use App\Services\BasketManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -16,8 +19,8 @@ final class ReorderBasketItems extends AbstractController
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
+        private readonly BasketManager $basketManager,
     ) {
-        //
     }
 
     #[Route('baskets/{basket}/reorder', name: 'baskets_reorder', methods: ['POST'])]
@@ -25,18 +28,9 @@ final class ReorderBasketItems extends AbstractController
         Basket $basket,
         #[MapRequestPayload] BasketReorderRequest $request,
     ): JsonResponse {
-        $items = $basket->items->toArray();
-        $idMap = [];
-        foreach ($items as $item) {
-            $idMap[$item->getId()] = $item;
-        }
+        $this->basketManager->reorderItems($basket, $request->ids);
 
-        foreach ($request->ids as $index => $id) {
-            if (isset($idMap[$id])) {
-                $idMap[$id]->setWeight($index);
-            }
-        }
-
+        $this->entityManager->persist($basket);
         $this->entityManager->flush();
 
         return new JsonResponse(['success' => true]);

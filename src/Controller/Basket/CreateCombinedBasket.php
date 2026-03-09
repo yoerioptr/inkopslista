@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Basket;
 
-use App\Entity\Basket;
 use App\Form\BasketType;
-use App\Repository\BasketItemRepository;
 use App\Repository\ProductRepository;
+use App\Services\BasketManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,22 +20,15 @@ final class CreateCombinedBasket extends AbstractController
     public function __construct(
         private readonly ProductRepository $productRepository,
         private readonly EntityManagerInterface $entityManager,
-        private readonly BasketItemRepository $basketItemRepository,
+        private readonly BasketManager $basketManager,
     ) {
-        //
     }
 
     #[Route('baskets/new-combined', name: 'baskets_new_combined')]
     public function __invoke(Request $request): Response
     {
-        $basket = new Basket();
+        $basket = $this->basketManager->createCombinedBasket();
         $basket->setAuthor($this->getUser());
-
-        $items = $this->basketItemRepository->findBy(['inCart' => false]);
-        foreach ($items as $item) {
-            $basket->addItem($item);
-            $this->entityManager->persist($item);
-        }
 
         $form = $this
             ->createForm(BasketType::class, $basket)

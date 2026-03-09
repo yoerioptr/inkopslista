@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DataFixtures;
 
 use App\Entity\Basket;
@@ -11,7 +13,6 @@ use Doctrine\Persistence\ObjectManager;
 
 final class BasketFixtures extends Fixture
 {
-
     #[\Override]
     public function load(ObjectManager $manager): void
     {

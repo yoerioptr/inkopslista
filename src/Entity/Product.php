@@ -63,7 +63,7 @@ final class Product
         return $this;
     }
 
-    public function removeBasketItem(BasketItem $basketItem): static
+    public function removeBasketItem(BasketItem $basketItem): self
     {
         if ($this->basketItems->removeElement($basketItem)) {
             // set the owning side to null (unless already changed)
@@ -80,7 +80,7 @@ final class Product
         return $this->created;
     }
 
-    public function setCreated(\DateTimeImmutable $created): static
+    public function setCreated(\DateTimeImmutable $created): self
     {
         $this->created = $created;
 

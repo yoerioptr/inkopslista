@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form\DataTransformer;
 
 use App\Entity\Product;
@@ -11,7 +13,6 @@ final readonly class ProductTransformer implements DataTransformerInterface
     public function __construct(
         private ProductManager $productManager,
     ) {
-        //
     }
 
     #[\Override]

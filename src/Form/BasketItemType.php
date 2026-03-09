@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
 use App\Entity\BasketItem;
@@ -17,7 +19,6 @@ final class BasketItemType extends AbstractType
     public function __construct(
         private readonly ProductTransformer $productTransformer,
     ) {
-        //
     }
 
     #[\Override]

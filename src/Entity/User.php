@@ -173,7 +173,7 @@ final class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function removeBasket(Basket $basket): static
+    public function removeBasket(Basket $basket): self
     {
         if ($this->baskets->removeElement($basket)) {
             // set the owning side to null (unless already changed)

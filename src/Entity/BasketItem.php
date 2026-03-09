@@ -75,7 +75,7 @@ final class BasketItem
         return $this->unit;
     }
 
-    public function setUnit(Unit $unit): static
+    public function setUnit(Unit $unit): self
     {
         $this->unit = $unit;
 
@@ -87,7 +87,7 @@ final class BasketItem
         return $this->basket;
     }
 
-    public function setBasket(?Basket $basket): static
+    public function setBasket(?Basket $basket): self
     {
         $this->basket = $basket;
 
@@ -99,7 +99,7 @@ final class BasketItem
         return $this->weight;
     }
 
-    public function setWeight(int $weight): static
+    public function setWeight(int $weight): self
     {
         $this->weight = $weight;
 
@@ -111,7 +111,7 @@ final class BasketItem
         return $this->created;
     }
 
-    public function setCreated(\DateTimeImmutable $created): static
+    public function setCreated(\DateTimeImmutable $created): self
     {
         $this->created = $created;
 
@@ -123,7 +123,7 @@ final class BasketItem
         return $this->inCart;
     }
 
-    public function setInCart(bool $inCart): static
+    public function setInCart(bool $inCart): self
     {
         $this->inCart = $inCart;
 

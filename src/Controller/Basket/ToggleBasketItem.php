@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Basket;
 
 use App\Dto\ToggleBasketItemRequest;
@@ -18,7 +20,6 @@ final class ToggleBasketItem extends AbstractController
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
     ) {
-        //
     }
 
     #[Route('baskets/{basket}/toggle/{item}', name: 'baskets_toggle_item', methods: ['POST'])]

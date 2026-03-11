@@ -18,22 +18,22 @@ final readonly class TimeCalculation
         $now = new \DateTimeImmutable();
         $diff = $now->diff($dateTime);
 
-        $diff->w = (int)floor($diff->d / 7);
-        $diff->d -= $diff->w * 7;
+        $weeks = (int)floor($diff->d / 7);
+        $days = $diff->d - ($weeks * 7);
 
         $units = [
-            'y' => 'time.year',
-            'm' => 'time.month',
-            'w' => 'time.week',
-            'd' => 'time.day',
-            'h' => 'time.hour',
-            'i' => 'time.minute',
+            'y' => ['value' => $diff->y, 'label' => 'time.year'],
+            'm' => ['value' => $diff->m, 'label' => 'time.month'],
+            'w' => ['value' => $weeks, 'label' => 'time.week'],
+            'd' => ['value' => $days, 'label' => 'time.day'],
+            'h' => ['value' => $diff->h, 'label' => 'time.hour'],
+            'i' => ['value' => $diff->i, 'label' => 'time.minute'],
         ];
 
         $parts = [];
-        foreach ($units as $k => $v) {
-            if ($diff->$k) {
-                $parts[] = $this->translator->trans($v, ['%count%' => $diff->$k]);
+        foreach ($units as $unit) {
+            if ($unit['value'] > 0) {
+                $parts[] = $this->translator->trans($unit['label'], ['%count%' => $unit['value']]);
             }
         }
 

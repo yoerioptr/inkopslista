@@ -22,7 +22,7 @@ final class ListBaskets extends AbstractController
     public function __invoke(): Response
     {
         return $this->render('baskets/list.html.twig', [
-            'baskets' => $this->basketRepository->findAll(),
+            'baskets' => $this->basketRepository->findBy([], ['created' => 'DESC']),
         ]);
     }
 }

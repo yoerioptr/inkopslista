@@ -1,0 +1,8 @@
+name: mercure
+repository: Rindula/ddev-mercure
+version: v1.0.5
+install_date: "2026-03-11T07:37:40+01:00"
+project_files:
+    - docker-compose.mercure.yaml
+global_files: []
+removal_actions: []

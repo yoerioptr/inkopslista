@@ -8,9 +8,11 @@ use App\Enum\Unit;
 use App\Repository\BasketItemRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\UX\Turbo\Attribute\Broadcast;
 
 #[ORM\Entity(repositoryClass: BasketItemRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#[Broadcast]
 final class BasketItem
 {
     #[ORM\Id]

@@ -1,0 +1,24 @@
+{# templates/broadcast/Basket.stream.html.twig #}
+
+{% block create %}
+    <turbo-stream action="prepend" target="basket-list">
+        <template>
+            {% include 'baskets/_basket_row.html.twig' with {basket: entity} %}
+        </template>
+    </turbo-stream>
+{% endblock %}
+
+{% block update %}
+    <turbo-stream action="replace" target="basket-{{ id }}">
+        <template>
+            {% include 'baskets/_basket_row.html.twig' with {basket: entity} %}
+        </template>
+    </turbo-stream>
+    <turbo-stream action="update" target="basket-name-{{ id }}">
+        <template>{{ entity.name }}</template>
+    </turbo-stream>
+{% endblock %}
+
+{% block remove %}
+    <turbo-stream action="remove" target="basket-{{ id }}"></turbo-stream>
+{% endblock %}

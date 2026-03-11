@@ -8,9 +8,12 @@ use App\Repository\BasketRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\OrderBy;
+use Symfony\UX\Turbo\Attribute\Broadcast;
 
 #[ORM\Entity(repositoryClass: BasketRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#[Broadcast]
 final class Basket
 {
     #[ORM\Id]
@@ -22,6 +25,7 @@ final class Basket
      * @var Collection<int, BasketItem>
      */
     #[ORM\OneToMany(targetEntity: BasketItem::class, mappedBy: 'basket', orphanRemoval: true, cascade: ['persist'])]
+    #[ORM\OrderBy(['weight' => 'ASC'])]
     private Collection $items;
 
     #[ORM\Column]
@@ -43,7 +47,7 @@ final class Basket
         return $this->id;
     }
 
-    public function getItems(): ArrayCollection
+    public function getItems(): Collection
     {
         return $this->items;
     }
